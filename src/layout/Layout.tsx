@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
     AppBar,
     Toolbar,
@@ -28,8 +27,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-import { Outlet } from 'react-router';
-import { Link } from 'react-router'; // Import Link from react-router-dom
+import { Outlet, Link, useLocation } from 'react-router'; // Import useLocation
 
 const drawerWidth = 110;
 
@@ -47,8 +45,8 @@ const navItems = [
 ];
 
 export default function App() {
-    const [activeIndex, setActiveIndex] = useState(0); // Default active
     const theme = useTheme();
+    const location = useLocation(); // Get the current location
 
     return (
         <>
@@ -113,14 +111,13 @@ export default function App() {
                 }}
             >
                 <List disablePadding dense>
-                    {navItems.map((item, index) => {
-                        const isActive = activeIndex === index;
+                    {navItems.map((item) => {
+                        const isActive = location.pathname === item.link; // Check if the current route matches the item's link
                         return (
                             <Box key={item.label} sx={{ px: 2, py: 0.5 }}>
                                 <ListItemButton
                                     component={Link} // Use Link as the component
                                     to={item.link}
-                                    onClick={() => setActiveIndex(index)}
                                     sx={{
                                         flexDirection: 'column',
                                         alignItems: 'center',
