@@ -1,5 +1,5 @@
-import { Box } from '@mui/material'
-import StatsGrid from '../../components/StatsGrid/StatsGrid';
+import { Box, Grid, Typography } from '@mui/material'
+import StatsCard from '../../components/StatsCard/StatsCard';
 
 const CollectorDashboard = () => {
 
@@ -16,8 +16,14 @@ const CollectorDashboard = () => {
 
 
     return (
-        <Box >
-            <StatsGrid stats={statsData} spacing={2} columns={8} />
+        <Box>
+            <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+                <Grid container>
+                    <Grid item><Typography variant="h4" fontSize={30} fontWeight={600}>Collector Dashboard</Typography></Grid>
+                </Grid>
+            </Box>
+
+            <StatsCard title="Balance" value="$436.14K" percentage="+20%"  />
         </Box>
     )
 }

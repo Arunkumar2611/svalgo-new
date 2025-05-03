@@ -61,6 +61,8 @@ export default function App() {
                     color: 'black',
                     borderBottom: '1px solid #eee',
                     zIndex: theme.zIndex.drawer + 1,
+                    border: '1px solid #e0e0e0',
+
                 }}
             >
                 <Toolbar sx={{ justifyContent: 'space-between' }}>
@@ -171,9 +173,9 @@ export default function App() {
                     ml: `${drawerWidth}px`,
                     p: 3,
                     pt: 10,
-                    height: `calc(100vh - 64px)`,
+                    height: `calc(100vh)`,
                     overflowY: 'auto',
-                    backgroundColor: '#fafafa',
+                    backgroundColor: '#F5F5F5',
                 }}
             >
                 <Outlet />
