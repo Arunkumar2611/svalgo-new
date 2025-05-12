@@ -100,7 +100,7 @@ const OverdueCustomers: React.FC = () => {
         }
       >
         {customers.map((cust, index) => (
-          <Box key={index} mb={index !== customers.length - 1 ? 2 : 0}>
+          <Box p={2} key={index} mb={index !== customers.length - 1 ? 2 : 0}>
             <Box
               display="flex"
               justifyContent="space-between"

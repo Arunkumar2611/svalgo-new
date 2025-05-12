@@ -11,6 +11,9 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-style: "poppins";
+  font-size: "13px";
+  font-weight: 400;
 }
 
 a {

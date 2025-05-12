@@ -180,7 +180,7 @@ const PerformanceTable = () => {
                 </TableContainer>
 
                 {/* Pagination controls */}
-                <Box display="flex" justifyContent="flex-end" alignItems="center" mt={2}>
+                <Box display="flex" justifyContent="flex-end" alignItems="center" p={2}>
                     <Button
                         variant="outlined"
                         size="small"

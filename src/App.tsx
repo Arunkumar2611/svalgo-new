@@ -14,7 +14,7 @@ function App() {
       mode: darkMode ? 'dark' : 'light',
     },
     typography: {
-      fontFamily: 'Roboto, Arial, sans-serif',
+      fontFamily: 'inter',
     },
   });
 

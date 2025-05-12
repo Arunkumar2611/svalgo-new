@@ -13,6 +13,9 @@ import {
     Paper,
     IconButton,
     useTheme,
+    ListItem,
+    Tooltip,
+    Drawer,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
@@ -29,7 +32,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import { Outlet, Link, useLocation } from 'react-router'; // Import useLocation
 
-const drawerWidth = 110;
+const drawerWidth = 80;
 
 const navItems = [
     { label: 'Dashboard', icon: <DashboardIcon />, link: '/' },
@@ -49,7 +52,7 @@ export default function App() {
     const location = useLocation(); // Get the current location
 
     return (
-        <>
+        <Box sx={{ display: 'flex' }}>
             <CssBaseline />
 
             {/* Top AppBar */}
@@ -57,6 +60,7 @@ export default function App() {
                 position="fixed"
                 elevation={0}
                 sx={{
+                    // height: "78px",
                     bgcolor: 'white',
                     color: 'black',
                     borderBottom: '1px solid #eee',
@@ -77,7 +81,7 @@ export default function App() {
                                 p: '2px 8px',
                                 display: 'flex',
                                 alignItems: 'center',
-                                width: 250,
+                                // width: 250,
                                 borderRadius: 2,
                                 backgroundColor: '#f9f9f9',
                             }}
@@ -98,89 +102,104 @@ export default function App() {
             </AppBar>
 
             {/* Sidebar */}
-            <Box
+            <Drawer
+                variant="permanent"
                 sx={{
                     width: drawerWidth,
                     flexShrink: 0,
-                    bgcolor: 'white',
-                    height: 'calc(100vh - 64px)', // Adjust height to account for the AppBar
-                    position: 'fixed',
-                    top: 64, // Offset for the AppBar
-                    borderRight: '1px solid #eee',
-                    overflowY: 'auto', // Enable scrolling for the sidebar
-                    overflow: 'overlay', // Prevent scrollbar from affecting layout
-                    pt: 2,
+                    [`& .MuiDrawer-paper`]: {
+                        width: drawerWidth,
+                        boxSizing: "border-box",
+                    },
+                    bgcolor: 'red',
                 }}
             >
-                <List disablePadding dense>
-                    {navItems.map((item) => {
-                        const isActive = location.pathname === item.link; // Check if the current route matches the item's link
-                        return (
-                            <Box key={item.label} sx={{ px: 2, py: 0.5 }}>
-                                <ListItemButton
-                                    component={Link} // Use Link as the component
-                                    to={item.link}
-                                    sx={{
-                                        flexDirection: 'column',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        textAlign: 'center',
-                                        borderRadius: 2,
-                                        mx: 1, // Fixed horizontal margin for consistent spacing
-                                        px: 2, // Add horizontal padding for consistent spacing
-                                        py: 1,
-                                        bgcolor: isActive ? 'rgba(104, 58, 183, 0.1)' : 'transparent',
-                                        '&:hover': {
-                                            bgcolor: 'rgba(104, 58, 183, 0.1)',
-                                        },
-                                    }}
-                                >
-                                    <ListItemIcon
+                <Toolbar />
+                <Box sx={{
+                    width: drawerWidth,
+                    // padding: "12px 16px 12px 16px",
+                    // gap: "2px !important",
+                    display: "block",
+                    flexShrink: 0,
+                    // bgcolor: 'red',
+                    // height: 'calc(100vh - 78px)',
+                    position: 'fixed',
+
+                    top: "78px",
+                    // backgroundColor: "red"
+                }}>
+                    <List
+                        sx={{
+                            gap: "10px",
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "center",
+                        }}
+                        disablePadding
+                        dense
+                    >
+                        {navItems.map((item) => {
+                            const isActive = location.pathname === item.link;
+                            return (
+                                <Tooltip title={item.label} placement="right" arrow>
+                                    <ListItem
+                                        disablePadding
                                         sx={{
-                                            minWidth: 'auto',
-                                            color: isActive ? '#693ab7' : 'grey',
+                                            flexDirection: "column",
+                                            // alignItems: 'center',
+                                            // justifyContent: 'center',
+                                            justifyContent: "start !important",
+                                            // padding: '8px',
+                                            gap: "2px",
+                                            margin: "0px",
+                                            fontStyle: "Inter",
+                                            fontSize: "13px",
+                                            fontWeight: 400,
                                         }}
                                     >
-                                        {item.icon}
-                                    </ListItemIcon>
-                                </ListItemButton>
+                                        <ListItemButton
+                                            component={Link}
+                                            to={item.link}
+                                            sx={{
+                                                width: "48px",
+                                                height: "48px",
+                                                backgroundColor: isActive ? "#F9F5FF" : "transparent",
+                                                // border: isActive ? '2px solid #6941C6' : '2px solid transparent',
+                                                borderRadius: "6px",
+                                                display: "flex",
+                                                justifyContent: "center",
+                                                alignItems: "center",
+                                                textDecoration: "none",
+                                                color: isActive ? "#6941C6" : "grey",
+                                                "&:hover": {
+                                                    backgroundColor: "#f3e8ff",
+                                                },
+                                            }}
+                                        >
+                                            {item.icon}
+                                        </ListItemButton>
+                                    </ListItem>
+                                </Tooltip>
+                            );
+                        })}
+                    </List>
+                </Box>
+            </Drawer>
 
-                                <ListItemText
-                                    primary={item.label}
-                                    sx={{
-                                        flexDirection: 'column',
-                                        alignItems: 'center',
-                                        justifyContent: 'center',
-                                        textAlign: 'center',
-                                    }}
-                                    primaryTypographyProps={{
-                                        fontSize: 12,
-                                        fontWeight: isActive ? 600 : 400,
-                                        color: isActive ? '#693ab7' : 'grey',
-                                    }}
-                                />
-                            </Box>
-                        );
-                    })}
-                </List>
-            </Box>
-
-            {/* Main Content Area */}
             <Box
                 component="main"
                 sx={{
                     flexGrow: 1,
-                    ml: `${drawerWidth}px`,
-                    p: 3,
-                    pt: 10,
-                    height: `calc(100vh)`,
                     overflowY: 'auto',
                     backgroundColor: '#F5F5F5',
+                    padding: "20px",
                 }}
             >
+                <Toolbar />
                 <Outlet />
             </Box>
-        </>
+        </Box>
     );
 }
 

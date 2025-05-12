@@ -15,6 +15,7 @@ import {
   TablePagination,
 } from '@mui/material';
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
+import CustomToolbar from '../CustomToolbar/CustomToolbar';
 
 interface BasicTableProps {
   title?: string;
@@ -65,87 +66,67 @@ const BasicTable: React.FC<BasicTableProps> = ({
   return (
     <Box sx={{ width: '100%' }}>
       <Paper sx={{ width: '100%' }}>
-        {showToolbar && (
-          <>
-            <Toolbar>
-              <Box sx={{ flex: '1 1 100%' }}>
-                {title && (
-                  <Typography variant="body1" fontWeight="bold">
-                    {title}
-                  </Typography>
-                )}
-                {subtitle && (
-                  <Typography sx={{ fontSize: '12px' }}>
-                    {subtitle}
-                  </Typography>
-                )}
-              </Box>
-              <IconButton size="small">
-                <OpenInNewIcon fontSize="small" />
-              </IconButton>
-            </Toolbar>
-            <Divider />
-          </>
-        )}
-        <TableContainer>
-          <Table>
-            <TableHead>
-              <TableRow>
-                {headers.map((header, index) => (
-                  <TableCell key={index} align="left">
-                    {header}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-            {paginatedRows.map((row, rowIndex) => (
-                <TableRow key={rowIndex}>
-                  {row.map((cell, cellIndex) => {
-                    const isLink = linkColumnIndex === cellIndex;
-                    return (
-                      <TableCell
-                        key={cellIndex}
-                        align="left"
-                        onClick={() =>
-                          isLink && onLinkClick?.(cell, page * rowsPerPage + rowIndex)
-                        }
-                        sx={
-                          isLink
-                            ? {
-                                color: 'blue',
-                                textDecoration: 'underline',
-                                cursor: 'pointer',
-                              }
-                            : {}
-                        }
-                      >
-                        {cell}
-                      </TableCell>
-                    );
-                  })}
+        <CustomToolbar title={title} subtitle={subtitle} rightContent={<IconButton size="small"><OpenInNewIcon fontSize="small" /></IconButton>}>
+          <TableContainer>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  {headers.map((header, index) => (
+                    <TableCell key={index} align="left">
+                      {header}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          component="div"
-          count={rows.length}
-          page={page}
-          rowsPerPage={rowsPerPage}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage=""
-          sx={{
-            '& .MuiSelect-select': {
-              display: 'none !important',
-            },
-            '& > div.MuiToolbar-root > div.MuiInputBase-root > svg': {
-              display: 'none !important',
-            },
-          }}
-        />
+              </TableHead>
+              <TableBody>
+              {paginatedRows.map((row, rowIndex) => (
+                  <TableRow key={rowIndex}>
+                    {row.map((cell, cellIndex) => {
+                      const isLink = linkColumnIndex === cellIndex;
+                      return (
+                        <TableCell
+                          key={cellIndex}
+                          align="left"
+                          onClick={() =>
+                            isLink && onLinkClick?.(cell, page * rowsPerPage + rowIndex)
+                          }
+                          sx={
+                            isLink
+                              ? {
+                                  color: 'blue',
+                                  textDecoration: 'underline',
+                                  cursor: 'pointer',
+                                }
+                              : {}
+                          }
+                        >
+                          {cell}
+                        </TableCell>
+                      );
+                    })}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            component="div"
+            count={rows.length}
+            page={page}
+            rowsPerPage={rowsPerPage}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage=""
+            sx={{
+              '& .MuiSelect-select': {
+                display: 'none !important',
+              },
+              '& > div.MuiToolbar-root > div.MuiInputBase-root > svg': {
+                display: 'none !important',
+              },
+            }}
+          />
+        </CustomToolbar>
 
       </Paper>
     </Box>

@@ -19,9 +19,10 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({
   return (
     <Box>
       <Toolbar
+      disableGutters={true}
         sx={{
           p: 2,
-          backgroundColor: "#F7F9AC",
+          // backgroundColor: "#F7F9AC",
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
@@ -59,7 +60,7 @@ const CustomToolbar: React.FC<CustomToolbarProps> = ({
       <Divider />
 
       {/* Render children below the toolbar */}
-      <Box p={2} height="100%">{children}</Box>
+      <Box height="100%">{children}</Box>
     </Box>
   );
 };
