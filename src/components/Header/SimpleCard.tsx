@@ -11,7 +11,6 @@ const SimpleCard = () => {
                 alignItems: "flex-start",
                 padding: "24px",
                 gap: "20px",
-                alignItems: "flex-start",
                 borderRadius: 2
             }}
         >

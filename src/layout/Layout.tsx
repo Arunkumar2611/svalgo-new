@@ -30,7 +30,9 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import InventoryIcon from '@mui/icons-material/Inventory';
 import DescriptionIcon from '@mui/icons-material/Description';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-import { Outlet, Link, useLocation } from 'react-router'; // Import useLocation
+import SmartToyIcon from '@mui/icons-material/SmartToy';
+import { Outlet, Link, useLocation } from 'react-router';
+import { red } from '@mui/material/colors';
 
 const drawerWidth = 80;
 
@@ -45,6 +47,7 @@ const navItems = [
     { label: 'Customer / Order holds', icon: <InventoryIcon />, link: '/customerOrder' },
     { label: 'Document central', icon: <DescriptionIcon />, link: '/document-central' },
     { label: 'Reports', icon: <AssessmentIcon />, link: '/reports' },
+    { label: 'Smart Assistant', icon: <SmartToyIcon />, link: '/assistant' },
 ];
 
 export default function App() {
@@ -52,7 +55,7 @@ export default function App() {
     const location = useLocation(); // Get the current location
 
     return (
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex'}}>
             <CssBaseline />
 
             {/* Top AppBar */}
