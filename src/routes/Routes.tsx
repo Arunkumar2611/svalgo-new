@@ -11,6 +11,7 @@ import Claims from '../pages/Claims/Claims';
 import CustomerOrder from '../pages/CustomerOrder/CustomerOrder';
 import DocumentCentral from '../pages/DocumentCentral/DocumentCentral';
 import Reports from '../pages/Reports/Reports';
+import SmartAssistant from '../pages/Assistant/SmartAssistant';
 
 const Routes = () => {
 
@@ -49,6 +50,7 @@ const Routes = () => {
                 { path: '/customerOrder', element: <CustomerOrder /> },
                 { path: '/document-central', element: <DocumentCentral /> },
                 { path: '/reports', element: <Reports /> },
+                { path: '/assistant', element: <SmartAssistant /> },
                 { path: '*', element: <Navigate to="/" replace /> },
               ],
         };
