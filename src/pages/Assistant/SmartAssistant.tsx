@@ -1,4 +1,4 @@
-    import React, { useState } from 'react';
+import React, { useState } from 'react';
     import {
         Box,
         Typography,
@@ -32,7 +32,7 @@
         return (
             <Box sx={{ p: 3, backgroundColor: '#F4F6F8', minHeight: '100vh' }}>
                 {/* Top Header Card */}
-                <Paper sx={{ p: 3, mb: 3, borderRadius: '12px', boxShadow: '0px 4px 20px rgba(0,0,0,0.05)' }}>
+                <Paper sx={{ p: 3, mb: 3, borderRadius: '12px', boxShadow: '0px 4px 20px rgba(0,0,0,0.05)', background: 'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 2%, rgba(255,255,255,0.3) 6%, rgba(255,255,255,0.0) 15%), white' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
                         <SmartToyOutlinedIcon sx={{ fontSize: 40, color: '#5D3FD3', mr: 2 }} />
                         <Typography variant="h5" component="h1" fontWeight="bold">
@@ -45,7 +45,7 @@
                 </Paper>
 
                 {/* Main Tabs */}
-                <Paper sx={{ mb: 3, borderRadius: '12px', backgroundColor: 'white', boxShadow: '0px 4px 20px rgba(0,0,0,0.05)' }}>
+                <Paper sx={{ mb: 3, borderRadius: '12px', boxShadow: '0px 4px 20px rgba(0,0,0,0.05)', background: 'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 2%, rgba(255,255,255,0.3) 6%, rgba(255,255,255,0.0) 15%), white' }}>
                     <Tabs
                         value={mainTabValue}
                         onChange={handleMainTabChange}
@@ -83,7 +83,7 @@
 
                 {/* Content based on Main Tab */}
                 {mainTabValue === 0 && (
-                    <Paper sx={{ p: 0, borderRadius: '12px', boxShadow: '0px 4px 20px rgba(0,0,0,0.05)', overflow: 'hidden' }}>
+                    <Paper sx={{ p: 0, borderRadius: '12px', boxShadow: '0px 4px 20px rgba(0,0,0,0.05)', overflow: 'hidden', background: 'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 2%, rgba(255,255,255,0.3) 6%, rgba(255,255,255,0.0) 15%), white' }}>
                         {/* Inner Header */}
                         <Box sx={{ p: 2.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: 1, borderColor: 'divider' }}>
                             <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -205,13 +205,13 @@
                     </Paper>
                 )}
                 {mainTabValue === 1 && (
-                    <Paper sx={{ p: 3, borderRadius: '12px', boxShadow: '0px 4px 20px rgba(0,0,0,0.05)' }}>
+                    <Paper sx={{ p: 3, borderRadius: '12px', boxShadow: '0px 4px 20px rgba(0,0,0,0.05)', background: 'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 2%, rgba(255,255,255,0.3) 6%, rgba(255,255,255,0.0) 15%), white' }}>
                         <Typography variant="h6">Schedule Calls Content</Typography>
                         {/* Add content for Schedule Calls tab here */}
                     </Paper>
                 )}
                 {mainTabValue === 2 && (
-                    <Paper sx={{ p: 3, borderRadius: '12px', boxShadow: '0px 4px 20px rgba(0,0,0,0.05)' }}>
+                    <Paper sx={{ p: 3, borderRadius: '12px', boxShadow: '0px 4px 20px rgba(0,0,0,0.05)', background: 'linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.7) 2%, rgba(255,255,255,0.3) 6%, rgba(255,255,255,0.0) 15%), white' }}>
                         <Typography variant="h6">Scheduled Calls Content</Typography>
                         {/* Add content for Scheduled Calls tab here */}
                     </Paper>

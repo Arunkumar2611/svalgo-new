@@ -3,7 +3,7 @@ import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
 import { Theme } from '@mui/material/styles';
 // import './App.css';
 import Routes from './routes/Routes';
-
+import PopupAssistant from './components/PopupChat/PopupAssistant';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -22,6 +22,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Routes />
+      <PopupAssistant />
     </ThemeProvider>
   );
 }
