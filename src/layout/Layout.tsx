@@ -196,7 +196,8 @@ export default function App() {
                     flexGrow: 1,
                     overflowY: 'auto',
                     backgroundColor: '#F5F5F5',
-                    padding: "20px",
+                    // padding: "20px",
+                    overflow: "hidden",
                 }}
             >
                 <Toolbar />
