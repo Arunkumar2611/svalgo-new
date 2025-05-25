@@ -8,6 +8,9 @@ interface InformCardProps {
     subvalue?: string | number;
     percentage?: string;
     subtitle?: string;
+    background?: string;
+    percentageColor?: string;
+    icon?: boolean;
 }
 
 const InformCard: React.FC<InformCardProps> = ({
@@ -16,6 +19,9 @@ const InformCard: React.FC<InformCardProps> = ({
     subvalue,
     percentage,
     subtitle,
+    background,
+    percentageColor,
+    icon=true,
 }) => {
     return (
         <Box
@@ -25,7 +31,7 @@ const InformCard: React.FC<InformCardProps> = ({
                 minHeight: "126px",
                 height: "100%",
                 p: '20px',
-                backgroundColor: '#FFFFFF',
+                backgroundColor:background ? background : '#FFFFFF',
                 borderRadius: '12px',
                 outline: '1px solid #E9EAEB',
                 outlineOffset: '-1px',
@@ -89,7 +95,7 @@ const InformCard: React.FC<InformCardProps> = ({
                         />
                         <Typography
                             sx={{
-                                color: '#B42318',
+                                color: percentageColor ? percentageColor : '#B42318',
                                 fontSize: '14px',
                                 fontWeight: 500,
                                 lineHeight: '20px',
@@ -132,6 +138,7 @@ const InformCard: React.FC<InformCardProps> = ({
             </Box>
 
             {/* Right Icon (placeholder for receipt icon) */}
+            {icon && 
             <Box
                 sx={{
                     width: 28,
@@ -158,6 +165,7 @@ const InformCard: React.FC<InformCardProps> = ({
                     />
                 </SvgIcon>
             </Box>
+            }
         </Box>
     );
 };

@@ -38,6 +38,7 @@ const drawerWidth = 80;
 
 const navItems = [
     { label: 'Dashboard', icon: <DashboardIcon />, link: '/' },
+    { label: 'Task Manager', icon: <TableRowsIcon />, link: '/task-manager' },
     { label: 'Collector dashboard', icon: <TableRowsIcon />, link: '/collector-dashboard' },
     { label: 'Customer', icon: <PersonIcon />, link: '/customers' },
     { label: 'Invoices', icon: <ReceiptIcon />, link: '/invoices' },
