@@ -1,5 +1,4 @@
-import React from "react";
-import { Box, Typography, Chip, Checkbox, IconButton } from "@mui/material";
+import { Box, Typography, Checkbox, IconButton } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
@@ -7,7 +6,7 @@ const FollowUpCard = () => {
     return (
         <Box
             sx={{
-                width: "auto",
+                width: "100%",
                 height: "100%",
                 padding: "24px",
                 backgroundColor: "white",

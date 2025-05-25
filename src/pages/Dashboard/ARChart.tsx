@@ -1,17 +1,13 @@
 // import React from "react";
-import { Card } from "@mui/material";
-import CustomToolbar from "../../components/CustomToolbar/CustomToolbar";
 import AROutstandingChart from "../../components/Chart/AROutstandingChart";
+import CustomCard from "../../components/Card/CustomCard";
 
 const ARChart = () => {
     return (
-        <Card sx={{ borderRadius: 3, width: "40%", height: "100%" }}>
-            <CustomToolbar
-                title="AR Outstanding in %"
-            >
-                <AROutstandingChart />
-            </CustomToolbar>
-        </Card>
+        <CustomCard
+            titleAsText="AR Outstanding in %"
+            main={<AROutstandingChart />}
+        />
     );
 };
 

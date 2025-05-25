@@ -1,8 +1,8 @@
 import React from "react";
 import {
   Box,
-  useTheme,
 } from "@mui/material";
+
 import {
   BarChart,
   Bar,
@@ -14,22 +14,13 @@ import {
   CartesianGrid,
 } from "recharts";
 
-const data = [
-  { name: "July 07", value: 17500000 },
-  { name: "July 08", value: 14100000 },
-  { name: "July 10", value: 12000000 },
-  { name: "July 11", value: 4800000 },
-  { name: "July 12", value: 10950000 },
-  { name: "July 13", value: 14600000 },
-  { name: "July 14", value: 1200000 },
-];
 
-const formatMillions = (value: number) => {
-  return `${(value / 1000000).toFixed(1)}M`;
-};
+interface CustomBarChartProps {
+  data: { name: string; value: number }[];
+  formatterFunc: (value: number) => string;
+}
 
-const AgingChart: React.FC = () => {
-  const theme = useTheme();
+const CustomBarChart: React.FC<CustomBarChartProps> = ({ data, formatterFunc }) => {
 
   return (
     <Box sx={{ height: '100%' }}>
@@ -52,14 +43,14 @@ const AgingChart: React.FC = () => {
             style={{ fontSize: 12 }}
           />
           <Tooltip
-            formatter={(value: number) => formatMillions(value)}
+            formatter={(value: number) => formatterFunc(value)}
             contentStyle={{ fontSize: "0.8rem" }}
           />
           <Bar dataKey="value" radius={[8, 8, 0, 0]} fill="#A47EF2">
             <LabelList
               dataKey="value"
               position="top"
-              formatter={(val: number) => formatMillions(val)}
+              formatter={(val: number) => formatterFunc(val)}
               style={{ fill: "#333", fontSize: 12 }}
             />
           </Bar>
@@ -69,4 +60,4 @@ const AgingChart: React.FC = () => {
   );
 };
 
-export default AgingChart;
+export default CustomBarChart;

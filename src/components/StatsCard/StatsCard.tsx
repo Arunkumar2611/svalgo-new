@@ -8,9 +8,10 @@ interface StatsCardProps {
   value: string | number;
   subtitle: string | number;
   showLink?: string;
+  background?: string;
 }
 
-const StatsCard: React.FC<StatsCardProps> = ({ title, value, subtitle }) => {
+const StatsCard: React.FC<StatsCardProps> = ({ title, value, subtitle, background }) => {
   return (
     <Box
       sx={{
@@ -18,7 +19,7 @@ const StatsCard: React.FC<StatsCardProps> = ({ title, value, subtitle }) => {
         width: "100%",
         minHeight: "120px",
         p: "20px",
-        backgroundColor: "white",
+        backgroundColor:background ? background : '#FFFFFF',
         borderRadius: "12px",
         outline: "1px solid #E9EAEB",
         outlineOffset: "-1px",
