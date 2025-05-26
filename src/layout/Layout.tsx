@@ -33,12 +33,12 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { Outlet, Link, useLocation } from 'react-router';
 import { red } from '@mui/material/colors';
+import PopupAssistant from '../components/PopupChat/PopupAssistant';
 
 const drawerWidth = 80;
 
 const navItems = [
     { label: 'Dashboard', icon: <DashboardIcon />, link: '/' },
-    { label: 'Task Manager', icon: <TableRowsIcon />, link: '/task-manager' },
     { label: 'Collector dashboard', icon: <TableRowsIcon />, link: '/collector-dashboard' },
     { label: 'Customer', icon: <PersonIcon />, link: '/customers' },
     { label: 'Invoices', icon: <ReceiptIcon />, link: '/invoices' },
@@ -143,10 +143,10 @@ export default function App() {
                         disablePadding
                         dense
                     >
-                        {navItems.map((item) => {
+                        {navItems.map((item, index) => {
                             const isActive = location.pathname === item.link;
                             return (
-                                <Tooltip title={item.label} placement="right" arrow>
+                                <Tooltip key={index} title={item.label} placement="right" arrow>
                                     <ListItem
                                         disablePadding
                                         sx={{
@@ -204,6 +204,7 @@ export default function App() {
                 <Toolbar />
                 <Outlet />
             </Box>
+            <PopupAssistant />
         </Box>
     );
 }
