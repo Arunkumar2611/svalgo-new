@@ -6,8 +6,6 @@ import {
     CssBaseline,
     List,
     ListItemButton,
-    ListItemIcon,
-    ListItemText,
     Avatar,
     InputBase,
     Paper,
@@ -32,7 +30,6 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { Outlet, Link, useLocation } from 'react-router';
-import { red } from '@mui/material/colors';
 
 const drawerWidth = 80;
 
