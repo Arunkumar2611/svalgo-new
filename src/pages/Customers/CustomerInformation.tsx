@@ -3,10 +3,7 @@ import {
   Box,
   Typography,
   Grid,
-  TextField,
   FormControl,
-  InputLabel,
-  Select,
   MenuItem,
   FormLabel,
   Button,
@@ -19,6 +16,7 @@ interface CustomerInformationProps {
 }
 
 const CustomerInformation: React.FC<CustomerInformationProps> = ({ toggleOpen }) => {
+  console.log("toggle", toggleOpen)
   return (
     <Box
       sx={{
