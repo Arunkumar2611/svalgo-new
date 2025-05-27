@@ -3,6 +3,7 @@ import { Box, Card } from '@mui/material'
 import CustomerComponentHeader from './CustomerComponentHeader';
 import CustomerInsightMenu from './CustomerInsightMenu';
 import CustomerTable from './CustomerTable';
+import CustomerDrawer from './CustomerDrawer';
 
 const Customers = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -47,6 +48,9 @@ const Customers = () => {
           </Card>
         </Box>
       </Box>
+      {rightDrawerOpen && (
+        <CustomerDrawer toggleOpen={handleRightDrawerClick} />
+      )}
     </Box>
   )
 }
