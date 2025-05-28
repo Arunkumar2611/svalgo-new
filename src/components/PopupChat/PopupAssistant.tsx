@@ -20,8 +20,10 @@ import VoiceChatIcon from '@mui/icons-material/VoiceChat';
 import MicIcon from '@mui/icons-material/Mic';
 import MicOffIcon from '@mui/icons-material/MicOff';
 import AddIcon from '@mui/icons-material/Add';
+import TimelineIcon from '@mui/icons-material/Timeline';
 import { HttpAgent } from '@ag-ui/client';
 import { useLocation } from 'react-router';
+import { AgentStatus, useAgentStatus } from '../AgentStatus';
 
 // TypeScript interface for Speech Recognition
 interface SpeechRecognitionEvent {
@@ -80,8 +82,17 @@ const PopupAssistant: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [agent, setAgent] = useState<HttpAgent | null>(null);
   const [isListening, setIsListening] = useState(false);
+  const [showStatus, setShowStatus] = useState(false);
   const location = useLocation();
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  
+  // Initialize AgentStatus hook
+  const { 
+    statusState, 
+    handleAgentEvent: handleStatusEvent, 
+    reset: resetStatus,
+    updateOverallProgress 
+  } = useAgentStatus();
 
   // Get API base URL from environment variables
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
@@ -252,6 +263,9 @@ const PopupAssistant: React.FC = () => {
 
       setMessages((prevMessages) => [...prevMessages, assistantMessage]);
 
+      // Auto-show status panel when agent starts processing
+      setShowStatus(true);
+
       // Start AG-UI agent run with HttpAgent
       const subscription = agent.legacy_to_be_removed_runAgentBridged({
         runId: `run-${Date.now()}`,
@@ -367,6 +381,14 @@ const PopupAssistant: React.FC = () => {
   const handleAgentEvent = (event: any, messageId: string) => {
     console.log('AG-UI Event received:', event);
     
+    // Pass event to AgentStatus for visual status tracking
+    try {
+      console.log('✅ Updating agent status with event:', event.type);
+      handleStatusEvent(event);
+    } catch (statusError) {
+      console.error('❌ Error updating agent status:', statusError);
+    }
+    
     switch (event.type) {
       case "RUN_STARTED":
       case "RunStarted":
@@ -456,6 +478,8 @@ const PopupAssistant: React.FC = () => {
   const handleNewChat = () => {
     setMessages([]);
     setInputValue('');
+    resetStatus();
+    setShowStatus(false);
     console.log('🔄 Started new chat session');
   };
 
@@ -503,6 +527,19 @@ const PopupAssistant: React.FC = () => {
             </Box>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
               <IconButton 
+                onClick={() => setShowStatus(!showStatus)} 
+                color="inherit" 
+                size="small"
+                title={showStatus ? "Hide Agent Status" : "Show Agent Status"}
+                sx={{ 
+                  opacity: statusState.isActive || statusState.steps.length > 0 ? 1 : 0.5, 
+                  '&:hover': { opacity: 1 },
+                  backgroundColor: showStatus ? 'rgba(255,255,255,0.2)' : 'transparent'
+                }}
+              >
+                <TimelineIcon fontSize="small" />
+              </IconButton>
+              <IconButton 
                 onClick={handleNewChat} 
                 color="inherit" 
                 size="small"
@@ -516,6 +553,16 @@ const PopupAssistant: React.FC = () => {
               </IconButton>
             </Box>
           </Box>
+
+          {/* Agent Status Panel (conditionally rendered) */}
+          {showStatus && (
+            <Box sx={{ borderBottom: '1px solid #E0E0E0', maxHeight: '200px', overflowY: 'auto' }}>
+              <AgentStatus 
+                statusState={statusState} 
+                className="border-0 rounded-none shadow-none"
+              />
+            </Box>
+          )}
 
           {/* Content Area */}
           <Box
