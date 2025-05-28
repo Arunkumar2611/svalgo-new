@@ -327,17 +327,36 @@ export const useAgentStatus = () => {
                 }
                 break;
                 
-            case 'STATE_UPDATE':
-            case 'STATEUPDATE':
-                // State updates are typically just informational, no progress tracking needed
-                addStep({
-                    type: 'state_update',
-                    title: `Updated ${event.key || 'state'}`,
-                    description: `${event.key || 'System state'} has been updated`,
-                    status: 'completed',
-                    details: { key: event.key, value: event.value }
-                });
-                updateOverallProgress();
+            case 'STATE_SNAPSHOT':
+            case 'STATE_DELTA':
+            case 'STATESNAPSHOT':
+            case 'STATEDELTA':
+                // Handle state events as informational updates
+                // Extract meaningful state info to display in the UI
+                const stateData = event.state || event.delta || {};
+                const stateStep = stateData.step || 'system_state';
+                const stateDesc = stateData.processing_stage || '';
+                
+                if (stateStep && stateStep !== 'starting' && stateStep !== 'complete') {
+                    // Only create steps for meaningful state changes
+                    const stateStepId = findOrCreateStep(`state_${stateStep}`, { 
+                        description: stateDesc || `Processing ${stateStep.replace(/_/g, ' ')}` 
+                    });
+                    
+                    // If this is a completion state, mark as complete
+                    if (stateStep.includes('complete')) {
+                        setProgress(stateStepId, 100);
+                        setTimeout(() => {
+                            completeStep(stateStepId);
+                            activeSteps.current.delete(`state_${stateStep}`);
+                            updateOverallProgress();
+                        }, 300);
+                    } else {
+                        // Otherwise just update progress
+                        setProgress(stateStepId, 50);
+                        updateOverallProgress();
+                    }
+                }
                 break;
                 
             case 'RUN_FINISHED':
