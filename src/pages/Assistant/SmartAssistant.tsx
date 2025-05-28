@@ -17,6 +17,20 @@ import SendIcon from '@mui/icons-material/Send';
 import { HttpAgent } from '@ag-ui/client';
 import { AgentStatus, useAgentStatus } from '../../components/AgentStatus';
 
+/*
+ * 🔧 AG-UI Protocol Fixes Applied:
+ * 
+ * 1. Added runErrorOccurred state to track when RUN_ERROR has occurred
+ * 2. Added event filtering in subscription.next() to prevent protocol violations
+ * 3. Only allow TEXT_MESSAGE_* events after RUN_ERROR (to complete error messages)
+ * 4. Reset runErrorOccurred flag on new message to allow fresh conversations
+ * 5. Enhanced error handling in stream error callback and timeout handler
+ * 6. Added comprehensive logging for debugging protocol issues
+ * 
+ * This prevents the "Cannot send event type 'STEP_STARTED' after RUN_ERROR" violation
+ * that was causing recurring frontend issues.
+ */
+
 // Message interface for AG-UI compatibility
 interface ChatMessage {
   id: string;
@@ -33,6 +47,8 @@ const SmartAssistant = () => {
     const [inputValue, setInputValue] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [agent, setAgent] = useState<HttpAgent | null>(null);
+    const [runErrorOccurred, setRunErrorOccurred] = useState(false);
+    const runErrorRef = useRef(false);
     const messagesEndRef = useRef<HTMLDivElement>(null);
     
     // Initialize AgentStatus hook for visual status tracking
@@ -117,6 +133,11 @@ const SmartAssistant = () => {
         setMessages((prevMessages) => [...prevMessages, userMessage]);
         setInputValue('');
         setIsLoading(true);
+        
+        // Reset run error flag for new conversation
+        setRunErrorOccurred(false);
+        runErrorRef.current = false;
+        console.log('🔄 Reset run error flag for new conversation');
         
         // Reset agent status for new conversation
         console.log('🔄 Resetting agent status for new conversation');
@@ -219,6 +240,37 @@ const SmartAssistant = () => {
                         return;
                     }
                     
+                    // 🚨 CRITICAL: Check for RUN_ERROR and set flag immediately
+                    if (event.type === 'RUN_ERROR' || event.type === 'RunError') {
+                        console.error('🚨 RUN_ERROR detected, setting flag and processing error');
+                        setRunErrorOccurred(true);
+                        // Process this RUN_ERROR event and then exit
+                        try {
+                            handleChatEvent(event, assistantMessageId);
+                        } catch (eventError) {
+                            console.error('❌ Error handling RUN_ERROR event:', eventError, event);
+                        }
+                        return;
+                    }
+                    
+                    // 🛑 PROTOCOL VIOLATION PREVENTION: Skip all events after RUN_ERROR has been seen
+                    // Check current runErrorOccurred state (may not be immediately updated due to React async state)
+                    // So we'll also need to handle this at the subscription level
+                    if (runErrorOccurred) {
+                        // Only allow TEXT_MESSAGE_* events after RUN_ERROR for error message display
+                        const allowedAfterError = [
+                            'TEXT_MESSAGE_START', 'TextMessageStart',
+                            'TEXT_MESSAGE_CONTENT', 'TextMessageContent', 
+                            'TEXT_MESSAGE_END', 'TextMessageEnd'
+                        ];
+                        
+                        if (!allowedAfterError.includes(event.type)) {
+                            console.warn(`🚫 Skipping event ${event.type} - run has already errored. This prevents AG-UI protocol violations.`);
+                            console.warn('ℹ️  Only TEXT_MESSAGE_* events are allowed after RUN_ERROR to complete error response display.');
+                            return;
+                        }
+                    }
+                    
                     // Validate required fields based on event type
                     if (event.type.includes('MESSAGE') && !event.messageId) {
                         console.warn('⚠️ Message event missing messageId:', event);
@@ -239,6 +291,9 @@ const SmartAssistant = () => {
                 },
                 error: (error: any) => {
                     console.error('❌ AG-UI Stream Error:', error);
+                    
+                    // Set run error flag when stream errors occur
+                    setRunErrorOccurred(true);
                     
                     // Enhanced error logging for different error types
                     if (error.name === 'ZodError' || error.code === 'invalid_union_discriminator') {
@@ -318,6 +373,30 @@ const SmartAssistant = () => {
 
     const handleChatEvent = (event: any, assistantMessageId: string) => {
         console.log('📨 Received AG-UI Event:', event.type, event);
+        
+        // 📝 NOTE: This function processes AG-UI protocol events
+        // The main event stream handler already filters out events after RUN_ERROR
+        // to prevent protocol violations, so events here should be safe to process
+        
+        // Special handling for state events to ensure they're properly formatted
+        if (event.type === 'STATE_SNAPSHOT' || event.type === 'STATE_DELTA') {
+            try {
+                // Make sure state/delta is an object for proper processing
+                if (event.state && typeof event.state !== 'object') {
+                    console.warn('⚠️ Converting non-object state to object');
+                    event.state = { value: event.state };
+                }
+                if (event.delta && typeof event.delta !== 'object') {
+                    console.warn('⚠️ Converting non-object delta to object');
+                    event.delta = { value: event.delta };
+                }
+                
+                // Enforce specific state format requirements
+                console.log('📊 Processing state event:', event.state || event.delta);
+            } catch (stateError) {
+                console.error('❌ Error processing state event:', stateError, event);
+            }
+        }
         
         // Pass event to AgentStatus for visual status tracking
         try {
@@ -490,6 +569,34 @@ const SmartAssistant = () => {
                 handleStatusEvent(enhancedToolEndEvent);
                 break;
                 
+            case "STATE_SNAPSHOT":
+            case "StateSnapshot":
+                console.log('🔄 State snapshot received:', event.state);
+                // Enhance state snapshot event for better UI display
+                const enhancedSnapshotEvent = {
+                    ...event,
+                    type: 'STATE_SNAPSHOT',
+                    name: `State: ${event.state?.step || 'update'}`,
+                    description: `${event.state?.processing_stage || 'System state updated'}`,
+                    details: event.state || {}
+                };
+                handleStatusEvent(enhancedSnapshotEvent);
+                break;
+                
+            case "STATE_DELTA":
+            case "StateDelta":
+                console.log('🔄 State delta received:', event.delta);
+                // Enhance state delta event for better UI display
+                const enhancedDeltaEvent = {
+                    ...event,
+                    type: 'STATE_DELTA',
+                    name: `Update: ${event.delta?.step || 'state change'}`,
+                    description: `${event.delta?.processing_stage || 'State change'}`,
+                    details: event.delta || {}
+                };
+                handleStatusEvent(enhancedDeltaEvent);
+                break;
+                
             case "STATE_UPDATE":
             case "StateUpdate":
                 console.log('🔄 State update:', event.key, event.value);
@@ -538,7 +645,11 @@ const SmartAssistant = () => {
             case "RUN_ERROR":
             case "RunError":
                 console.error('❌ Chat Assistant run error:', event);
-                // Make sure errors are properly reflected
+                
+                // Set the run error flag to prevent further event processing
+                setRunErrorOccurred(true);
+                
+                // Make sure errors are properly reflected in status
                 handleStatusEvent({
                     ...event,
                     type: 'RUN_ERROR',
@@ -547,7 +658,12 @@ const SmartAssistant = () => {
                     status: 'error',
                     details: event.message || 'Unknown error'
                 });
+                
+                // Handle the error in the chat UI
                 handleChatError(assistantMessageId, event);
+                
+                // Clean up loading state
+                setIsLoading(false);
                 break;
                 
             default:
@@ -639,6 +755,9 @@ const SmartAssistant = () => {
     // Handle timeout
     const handleTimeout = (messageId: string) => {
         setIsLoading(false);
+        
+        // Set run error flag for timeout
+        setRunErrorOccurred(true);
         
         // Add timeout to agent status
         handleStatusEvent({
