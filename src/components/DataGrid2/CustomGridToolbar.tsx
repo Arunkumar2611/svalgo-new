@@ -5,6 +5,7 @@ import {
     FilterPanelTrigger,
 } from '@mui/x-data-grid';
 import {
+    Box,
     IconButton,
     ListItemIcon,
     ListItemText,
@@ -32,7 +33,7 @@ interface CustomGridToolbarProps {
     onExport: (format: 'excel' | 'pdf') => void;
 }
 
-const CustomGridToolbar: React.FC<CustomGridToolbarProps> = ({ title, onFilterClick, onExportClick, onDensityClick, density, onExport }) => {
+const CustomGridToolbar: React.FC<CustomGridToolbarProps> = ({ title, onFilterClick, onExportClick, onDensityClick, density, onExport, children }) => {
     const [densityMenuAnchor, setDensityMenuAnchor] = React.useState(null);
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [exportAnchorEl, setExportAnchorEl] = React.useState(null);
@@ -50,10 +51,14 @@ const CustomGridToolbar: React.FC<CustomGridToolbarProps> = ({ title, onFilterCl
     }
 
     return (
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, py:5, px: 3 }}>
-            <Typography variant="subtitle1" fontWeight="bold">
-                {title}
-            </Typography>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, py: 5, px: 3 }}>
+            <Box sx={{display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center"}}>
+                <Typography variant="subtitle1" fontWeight="bold">
+                    {title}
+                </Typography>
+                <Box>{children}</Box>
+            </Box>
+
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <TextField

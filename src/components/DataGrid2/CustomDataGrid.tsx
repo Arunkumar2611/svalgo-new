@@ -16,7 +16,7 @@ interface CustomDataGridProps {
     [key: string]: unknown; // For additional props
 }
 
-export default function CustomDataGrid({ columns, rows, loading, handleExport }: CustomDataGridProps) {
+export default function CustomDataGrid({ columns, rows, loading, handleExport, toolbarTitle, headerChildren }: CustomDataGridProps) {
     const [density, setDensity] = React.useState<GridDensity>('standard');
     const [paginationModel, setPaginationModel] = React.useState({
         page: 0,
@@ -62,7 +62,7 @@ export default function CustomDataGrid({ columns, rows, loading, handleExport }:
                 onPaginationModelChange={(model) => setPaginationModel(model)}
                 density={density}
                 slots={{
-                    toolbar: () => <CustomGridToolbar title={"Toolbar com"} onDensityClick={setDensity} density={density} onExport={handleExport} />,
+                    toolbar: () => <CustomGridToolbar title={toolbarTitle} onDensityClick={setDensity} density={density} onExport={handleExport} >{headerChildren}</CustomGridToolbar>,
                     pagination: () => (
                         <CustomGridPagination count={rows?.length} pageSizeOption={10} />
                     ),
