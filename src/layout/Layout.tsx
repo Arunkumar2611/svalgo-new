@@ -30,6 +30,7 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { Outlet, Link, useLocation } from 'react-router';
+import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
 
 const drawerWidth = 80;
 
@@ -38,6 +39,7 @@ const navItems = [
     { label: 'Task Manager', icon: <TableRowsIcon />, link: '/task-manager' },
     // { label: 'Collector dashboard', icon: <TableRowsIcon />, link: '/collector-dashboard' },
     { label: 'Customer', icon: <PersonIcon />, link: '/customers' },
+    { label: 'Accounts', icon: <PeopleOutlineOutlinedIcon />, link: '/accounts' },
     { label: 'Invoices', icon: <ReceiptIcon />, link: '/invoices' },
     { label: 'Payments', icon: <PaymentsIcon />, link: '/payments' },
     { label: 'Collections', icon: <GroupsIcon />, link: '/collections' },
