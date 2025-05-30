@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
 import { Theme } from '@mui/material/styles';
-// import './App.css';
+import './App.css';
 import Routes from './routes/Routes';
-import PopupAssistant from './components/PopupChat/PopupAssistant';
+import ErrorBoundary from './components/ErrorBoundary';
 
 function App() {
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode] = useState(false);
 
   // Define the theme
   const theme: Theme = createTheme({
@@ -19,11 +19,12 @@ function App() {
   });
 
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Routes />
-      <PopupAssistant />
-    </ThemeProvider>
+    <ErrorBoundary>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Routes />
+      </ThemeProvider>
+    </ErrorBoundary>
   );
 }
 

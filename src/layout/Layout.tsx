@@ -30,7 +30,12 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import SmartToyIcon from '@mui/icons-material/SmartToy';
 import { Outlet, Link, useLocation } from 'react-router';
+
+import { red } from '@mui/material/colors';
+import PopupAssistant from '../components/PopupChat/PopupAssistant';
+
 import PeopleOutlineOutlinedIcon from '@mui/icons-material/PeopleOutlineOutlined';
+
 
 const drawerWidth = 80;
 
@@ -142,10 +147,10 @@ export default function App() {
                         disablePadding
                         dense
                     >
-                        {navItems.map((item) => {
+                        {navItems.map((item, index) => {
                             const isActive = location.pathname === item.link;
                             return (
-                                <Tooltip title={item.label} placement="right" arrow>
+                                <Tooltip key={index} title={item.label} placement="right" arrow>
                                     <ListItem
                                         disablePadding
                                         sx={{
@@ -203,7 +208,7 @@ export default function App() {
                 <Toolbar />
                 <Outlet />
             </Box>
+            <PopupAssistant />
         </Box>
     );
 }
-

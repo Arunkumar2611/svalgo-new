@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AG-UI Chat Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .message { margin: 10px 0; padding: 10px; border-radius: 8px; }
+        .user { background: #e3f2fd; text-align: right; }
+        .assistant { background: #f3e5f5; }
+        .error { background: #ffebee; color: #c62828; }
+        .loading { background: #fff3e0; font-style: italic; }
+        #chatLog { height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; margin: 10px 0; }
+        #messageInput { width: 70%; padding: 10px; }
+        #sendButton { padding: 10px 20px; }
+        .event-log { font-size: 12px; color: #666; margin: 2px 0; }
+    </style>
+</head>
+<body>
+    <h2>AG-UI Chat Assistant Test</h2>
+    <div id="chatLog"></div>
+    <div>
+        <input type="text" id="messageInput" placeholder="Type your message..." />
+        <button id="sendButton">Send</button>
+    </div>
+    <div>
+        <p><strong>Status:</strong> <span id="status">Initializing...</span></p>
+        <button id="clearButton">Clear Chat</button>
+    </div>
+
+    <script type="module">
+        import { HttpAgent } from 'https://unpkg.com/@ag-ui/client@0.0.28/dist/index.js';
+
+        const chatLog = document.getElementById('chatLog');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const status = document.getElementById('status');
+        const clearButton = document.getElementById('clearButton');
+
+        let agent = null;
+        let isLoading = false;
+
+        function addMessage(message, type = 'assistant', isEvent = false) {
+            const div = document.createElement('div');
+            div.className = isEvent ? 'event-log' : `message ${type}`;
+            div.innerHTML = isEvent ? `🔍 ${message}` : message;
+            chatLog.appendChild(div);
+            chatLog.scrollTop = chatLog.scrollHeight;
+        }
+
+        function updateStatus(text) {
+            status.textContent = text;
+        }
+
+        async function initializeAgent() {
+            try {
+                updateStatus('Initializing AG-UI HttpAgent...');
+                
+                agent = new HttpAgent({
+                    url: 'http://localhost:8001/api/chat',
+                    agentId: "test-chat-assistant",
+                    threadId: `test-session-${Date.now()}`,
+                });
+
+                agent.messages = [{
+                    id: "system",
+                    role: "system",
+                    content: "You are a helpful AI assistant."
+                }];
+
+                updateStatus('✅ AG-UI HttpAgent initialized');
+                addMessage('Chat assistant is ready! Type a message to test the connection.', 'assistant');
+                
+            } catch (error) {
+                console.error('Failed to initialize agent:', error);
+                updateStatus('❌ Failed to initialize');
+                addMessage(`❌ Initialization error: ${error.message}`, 'error');
+            }
+        }
+
+        async function sendMessage() {
+            if (!messageInput.value.trim() || !agent || isLoading) return;
+
+            const userMessage = messageInput.value.trim();
+            addMessage(userMessage, 'user');
+            messageInput.value = '';
+            isLoading = true;
+            updateStatus('🤔 Processing...');
+
+            // Add to agent history
+            agent.messages.push({
+                id: `user-${Date.now()}`,
+                role: "user",
+                content: userMessage
+            });
+
+            const assistantMessageDiv = document.createElement('div');
+            assistantMessageDiv.className = 'message assistant loading';
+            assistantMessageDiv.innerHTML = '🤔 Thinking...';
+            chatLog.appendChild(assistantMessageDiv);
+
+            let accumulatedResponse = '';
+
+            try {
+                const subscription = agent.legacy_to_be_removed_runAgentBridged({
+                    runId: `run-${Date.now()}`,
+                    tools: [],
+                    context: []
+                }).subscribe({
+                    next: (event) => {
+                        console.log('📨 AG-UI Event:', event.type, event);
+                        addMessage(`Event: ${event.type} - ${JSON.stringify(event)}`, 'assistant', true);
+
+                        if (event.type === 'TEXT_MESSAGE_CONTENT') {
+                            const delta = event.delta || event.content || '';
+                            accumulatedResponse += delta;
+                            assistantMessageDiv.className = 'message assistant';
+                            assistantMessageDiv.innerHTML = accumulatedResponse || '...';
+                        } else if (event.type === 'TEXT_MESSAGE_END') {
+                            assistantMessageDiv.className = 'message assistant';
+                            assistantMessageDiv.innerHTML = accumulatedResponse || 'Response completed';
+                        } else if (event.type === 'RUN_ERROR') {
+                            assistantMessageDiv.className = 'message error';
+                            assistantMessageDiv.innerHTML = `❌ Error: ${event.message || 'Unknown error'}`;
+                        }
+                    },
+                    error: (error) => {
+                        console.error('❌ Stream error:', error);
+                        assistantMessageDiv.className = 'message error';
+                        assistantMessageDiv.innerHTML = `❌ Stream error: ${error.message}`;
+                        isLoading = false;
+                        updateStatus('❌ Error occurred');
+                    },
+                    complete: () => {
+                        console.log('✅ Stream completed');
+                        isLoading = false;
+                        updateStatus('✅ Ready');
+                        if (assistantMessageDiv.classList.contains('loading')) {
+                            assistantMessageDiv.className = 'message assistant';
+                            assistantMessageDiv.innerHTML = accumulatedResponse || 'Response completed';
+                        }
+                    }
+                });
+
+            } catch (error) {
+                console.error('🚨 Send error:', error);
+                assistantMessageDiv.className = 'message error';
+                assistantMessageDiv.innerHTML = `❌ Send error: ${error.message}`;
+                isLoading = false;
+                updateStatus('❌ Send failed');
+            }
+        }
+
+        function clearChat() {
+            chatLog.innerHTML = '';
+            addMessage('Chat cleared. Ready for new messages!', 'assistant');
+        }
+
+        // Event listeners
+        sendButton.addEventListener('click', sendMessage);
+        clearButton.addEventListener('click', clearChat);
+        messageInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // Initialize
+        initializeAgent();
+    </script>
+</body>
+</html>

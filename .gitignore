@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+backend/
+chat_assistant/
+CHAT_ASSISTANT_DEPLOYMENT.md
+chat_test.html
