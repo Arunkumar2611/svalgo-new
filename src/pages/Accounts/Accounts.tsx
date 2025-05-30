@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { Box, Card } from '@mui/material'
-import CustomerComponentHeader from './CustomerComponentHeader';
-import CustomerInsightMenu from './CustomerInsightMenu';
-import CustomerTable from './CustomerTable';
-import CustomerDrawer from './CustomerDrawer';
+import AccountsHeader from './AccountsHeader';
+import AccountInsightMenu from './AccountInsightMenu';
+import AccountsTabs from './AcountsTab';
 
-const Customers = () => {
+const Accounts = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [rightDrawerOpen, setRightDrawerOpen] = useState(false);
   const handleRightDrawerClick = () => {
@@ -19,10 +18,11 @@ const Customers = () => {
         flexDirection: "column",
         gap: 1,
         paddingBottom: "16px",
+        
       }}
     >
-      <CustomerComponentHeader
-        title="Customer"
+      <AccountsHeader
+        title="Customer / Order holds"
         handleClick={handleRightDrawerClick}
       />
       <Box
@@ -33,7 +33,7 @@ const Customers = () => {
           paddingRight: "16px",
         }}
       >
-        <CustomerInsightMenu drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
+        <AccountInsightMenu drawerOpen={drawerOpen} setDrawerOpen={setDrawerOpen} />
       <Box
           sx={{
             flexGrow: 1,
@@ -43,16 +43,14 @@ const Customers = () => {
             overflowX: "auto",
           }}
         >
-          <Card elevation={0} sx={{borderRadius: "10px"}}>
-            <CustomerTable />
+          <Card elevation={0} sx={{border: "1px solid #E0E0E0", borderRadius: "10px",}}>
+            <AccountsTabs />
           </Card>
         </Box>
       </Box>
-      {rightDrawerOpen && (
-        <CustomerDrawer toggleOpen={handleRightDrawerClick} />
-      )}
+      
     </Box>
   )
 }
 
-export default Customers
+export default Accounts

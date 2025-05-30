@@ -33,7 +33,7 @@ import { styled, Tabs, TabsProps } from "@mui/material";
         minHeight: "36px !important",
         borderBottom: "none",
         flexDirection: orientation === "vertical" ? "column" : "row",
-        gap: "4px",
+        gap: "0px",
       },
       "& .MuiTabs-indicator" :{
         display: "none",
@@ -55,13 +55,15 @@ import { styled, Tabs, TabsProps } from "@mui/material";
         borderRight: orientation === "vertical" ? "3px solid transparent" : undefined,
         "&:hover": {
           backgroundColor:  "#F4EBFF",
+          borderRadius:'8px !important'
         },
       
         "&.Mui-selected": {
           // borderRight: orientation === "vertical" ? `3px solid ${theme.palette.primary.main}` : undefined,
           backgroundColor:  "#F4EBFF",
           color:  "#7F56D9",
-          borderRight:'1px solid #D5D7DA',
+          borderRight: "1px solid #D5D7DA",
+          borderLeft: "1px solid #D5D7DA",
           borderRadius:'8px !important'
         },
           },

@@ -13,6 +13,10 @@ import DocumentCentral from '../pages/DocumentCentral/DocumentCentral';
 import Reports from '../pages/Reports/Reports';
 import SmartAssistant from '../pages/Assistant/SmartAssistant';
 
+import TaskManager from "../pages/TaskManager/TaskManager";
+import Accounts from "../pages/Accounts/Accounts";
+
+
 const Routes = () => {
 
     const publicRoutes = () => {
@@ -41,8 +45,10 @@ const Routes = () => {
             ),
             children: [
                 { path: '/', element: <Dashboard /> },
+              { path: '/task-manager', element: <TaskManager /> },
                 { path: '/collector-dashboard', element: <CollectorDashboard /> },
                 { path: '/customers', element: <Customers /> },
+                { path: '/accounts', element: <Accounts /> },
                 { path: '/invoices', element: <Invoices /> },
                 { path: '/payments', element: <Payments /> },
                 { path: '/collections', element: <Collections /> },

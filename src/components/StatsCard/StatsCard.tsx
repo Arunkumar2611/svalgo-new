@@ -1,8 +1,5 @@
 import React from 'react';
-import { Box, Typography, IconButton } from '@mui/material';
-import TrendingUpIcon from "@mui/icons-material/TrendingUp";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
-
+import { Box, Typography } from '@mui/material';
 interface StatsCardProps {
   title: string;
   value: string | number;
