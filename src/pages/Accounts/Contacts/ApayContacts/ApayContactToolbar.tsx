@@ -7,7 +7,7 @@ import {
   Add,
 } from '@mui/icons-material';
 
-const BusinessContactToolbar: React.FC = () => {
+const ApayContactToolbar: React.FC = () => {
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -21,10 +21,10 @@ const BusinessContactToolbar: React.FC = () => {
           textTransform: 'none',
         }}
       >
-        Add New Contact
+        New Apay Contact
       </Button>
     </Box>
   );
 };
 
-export default BusinessContactToolbar;
+export default ApayContactToolbar;
