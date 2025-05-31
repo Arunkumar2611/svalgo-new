@@ -49,7 +49,7 @@ const ContactsTabs = () => {
   const tabsData = [
     { key: 0, label: "Business Contacts" },
     { key: 1, label: "Apay Contacts" },
-    { key: 3, label: "Payable Contacts" },
+    { key: 2, label: "Payable Contacts" },
   ];
 
   return (
@@ -92,7 +92,7 @@ const ContactsTabs = () => {
             <TabPanel value={tabvalue} index={1}>
               <ApayContactsTable />
             </TabPanel>
-            <TabPanel value={tabvalue} index={1}>
+            <TabPanel value={tabvalue} index={2}>
               <PayableContactsTable />
             </TabPanel>
           </>

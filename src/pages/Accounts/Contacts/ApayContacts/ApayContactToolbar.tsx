@@ -1,4 +1,3 @@
-// BusinessContactToolbar.tsx
 import React from 'react';
 import { Box, Button } from '@mui/material';
 import { Add } from '@mui/icons-material';
@@ -7,7 +6,8 @@ type Props = {
   onAddClick: () => void;
 };
 
-const BusinessContactToolbar: React.FC<Props> = ({ onAddClick }) => {
+const ApayContactToolbar: React.FC<Props> = ({ onAddClick }) => {
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
       <Button
@@ -21,10 +21,10 @@ const BusinessContactToolbar: React.FC<Props> = ({ onAddClick }) => {
           textTransform: 'none',
         }}
       >
-        Add New Contact
+        New Apay Contact
       </Button>
     </Box>
   );
 };
 
-export default BusinessContactToolbar;
+export default ApayContactToolbar;
