@@ -5,6 +5,8 @@ import InvoiceTabs from "./Invoices/InvoiceTabs";
 import PaymentsTabs from "./Payments/PaymentsTabs";
 import ClaimsTable from "./Claims/ClaimsTable";
 import ContactsTabs from "./Contacts/ContactsTabs";
+import Activites from "./Activites/Activites";
+import Notes from "./Notes/Notes";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -66,10 +68,10 @@ const AccountsTabs = () => {
           <ContactsTabs />
         </TabPanel>
         <TabPanel value={tabvalue} index={4}>
-          <Box p={2}>Activites</Box>
+          <Activites />
         </TabPanel>
         <TabPanel value={tabvalue} index={5}>
-          <Box p={2}>Notes</Box>
+          <Notes />
         </TabPanel>
         <TabPanel value={tabvalue} index={6}>
           <Box p={2}>Documents</Box>
