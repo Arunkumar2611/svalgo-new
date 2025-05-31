@@ -2,11 +2,12 @@ import StatusChip from '../../../../components/Chip/StatusChip';
 import CustomDataGrid from '../../../../components/DataGrid2/CustomDataGrid';
 
 const columns = [
-    { field: 'receipt', headerName: 'Receipt #', width: 180 },
+    { field: 'receipt', headerName: 'Receipt #', width: 180, flex: 1, },
     {
         field: 'status',
         headerName: 'Status',
         width: 180,
+        flex: 1,
         renderCell: (params: any) => {
             const statusColors: Record<string, string> = {
                 'Paid': 'success',
@@ -21,11 +22,11 @@ const columns = [
             );
         },
     },
-    { field: 'totalAmountPayable', headerName: 'Total amount payable', width: 180 },
-    { field: 'transactionId', headerName: 'Transaction ID', width: 200 },
-    { field: 'paymentAmount', headerName: 'Payment amount', width: 150 },
-    { field: 'source', headerName: 'Source', width: 180 },
-    { field: 'paymentDate', headerName: 'Payment date', width: 180 },
+    { field: 'totalAmountPayable', headerName: 'Total amount payable', width: 180, flex: 1, },
+    { field: 'transactionId', headerName: 'Transaction ID', width: 200, flex: 1, },
+    { field: 'paymentAmount', headerName: 'Payment amount', width: 150, flex: 1, },
+    { field: 'source', headerName: 'Source', width: 180, flex: 1, },
+    { field: 'paymentDate', headerName: 'Payment date', width: 180, flex: 1, },
 ];
 
 const rows = [

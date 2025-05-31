@@ -12,7 +12,7 @@ const TaskComponentHeader = ({ title, handleClick }: TaskComponentHeaderProps) =
       <Typography  sx={{ color: '#181D27',fontSize:24, fontWeight: 600, wordWrap: 'break-word' }}>
         {title}
       </Typography>
-      <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+      {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
         <Button onClick={handleClick} startIcon={ <Add className='iconBtnCss' />} variant="outlined" size="small" sx={{ background: 'whitesmoke',color:'#414651' ,borderRadius: 1.5 ,borderColor:'#414651' }}>
           Add widget
         </Button>
@@ -22,7 +22,7 @@ const TaskComponentHeader = ({ title, handleClick }: TaskComponentHeaderProps) =
             $5,123,124.24
           </Typography>
         </Box>
-      </Box>
+      </Box> */}
     </Box>
   );
 };
