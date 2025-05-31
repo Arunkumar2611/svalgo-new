@@ -36,7 +36,7 @@ export default function CustomDataGrid({ columns, rows, loading, handleExport, t
 
 
     return (
-        <div style={{ height: 800, width: '100%' }}>
+        <div style={{ height: "auto", width: '100%' }}>
             <DataGrid
                 sx={{
 

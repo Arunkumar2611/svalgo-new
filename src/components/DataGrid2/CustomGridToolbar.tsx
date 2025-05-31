@@ -51,7 +51,7 @@ const CustomGridToolbar: React.FC<CustomGridToolbarProps> = ({ title, onFilterCl
     }
 
     return (
-        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, py: 5, px: 3 }}>
+        <Toolbar sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, py: 2, px: 3 }}>
             <Box sx={{display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center"}}>
                 <Typography variant="subtitle1" fontWeight="bold">
                     {title}
