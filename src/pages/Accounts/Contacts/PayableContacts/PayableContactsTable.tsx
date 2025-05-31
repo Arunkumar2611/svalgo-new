@@ -10,6 +10,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import BusinessContactToolbar from "./PayableContactToolbar";
 import CustomDrawer from "../../../../components/CustomDrawer/CustomDrawer";
 import BusinessContactEditContent from "./PayableContactEditContent";
+import AddPayableContactForm from "./AddPayableContactForm";
 
 
 
@@ -102,7 +103,7 @@ export default function PayableContactsTable() {
     ];
 
 
-    const rows = [
+    const row = [
         {
             id: 1,
             firstname: "Arun",
@@ -143,14 +144,33 @@ export default function PayableContactsTable() {
         handleMenuClose();
     };
 
+    const [rows, setRows] = useState<any[]>(row); // Your contact list
+        const [addDrawerOpen, setAddDrawerOpen] = useState(false);
+        const [newContact, setNewContact] = useState({});
+    
+        const handleAddClick = () => {
+            setNewContact({});
+            setAddDrawerOpen(true);
+        };
+    
+        const handleAddSubmit = () => {
+            const newRow = {
+                ...newContact,
+                id: Date.now(), // or use a UUID generator if needed
+            };
+            setRows((prev) => [...prev, newRow]);
+            setAddDrawerOpen(false);
+        };
+
     return (
         <>
             <CustomDataGrid
+            getRowId={(row) => row._id}
                 columns={columns}
                 rows={rows}
                 handleExport={handleExport}
                 headerChildren={
-                    <BusinessContactToolbar />
+                    <BusinessContactToolbar onAddClick={handleAddClick} />
                 }
             />
 
@@ -162,6 +182,18 @@ export default function PayableContactsTable() {
                 <MenuItem onClick={handleEdit}>Edit</MenuItem>
                 <MenuItem onClick={handleDelete}>Delete</MenuItem>
             </Menu>
+
+            <CustomDrawer
+                            open={addDrawerOpen}
+                            onClose={() => setAddDrawerOpen(false)}
+                            title="Add New Contact"
+                            onSubmit={handleAddSubmit}
+                        >
+                            <AddPayableContactForm
+                                newContact={newContact}
+                                setNewContact={setNewContact}
+                            />
+                        </CustomDrawer>
 
             <CustomDrawer
                 open={drawerOpen}
