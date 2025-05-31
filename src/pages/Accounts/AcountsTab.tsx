@@ -2,6 +2,9 @@ import React from "react";
 import Tabs from "../../components/Tab/Tabs";
 import { Box } from "@mui/material";
 import InvoiceTabs from "./Invoices/InvoiceTabs";
+import PaymentsTabs from "./Payments/PaymentsTabs";
+import ClaimsTable from "./Claims/ClaimsTable";
+import ContactsTabs from "./Contacts/ContactsTabs";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -54,13 +57,13 @@ const AccountsTabs = () => {
             <InvoiceTabs />
         </TabPanel>
         <TabPanel value={tabvalue} index={1}>
-          <Box p={2}>Payments</Box>
+          <PaymentsTabs />
         </TabPanel>
         <TabPanel value={tabvalue} index={2}>
-          <Box p={2}>Claims</Box>
+          <ClaimsTable />
         </TabPanel>
         <TabPanel value={tabvalue} index={3}>
-          <Box p={2}>Contacts</Box>
+          <ContactsTabs />
         </TabPanel>
         <TabPanel value={tabvalue} index={4}>
           <Box p={2}>Activites</Box>
