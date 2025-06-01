@@ -7,6 +7,7 @@ import ClaimsTable from "./Claims/ClaimsTable";
 import ContactsTabs from "./Contacts/ContactsTabs";
 import Activites from "./Activites/Activites";
 import Notes from "./Notes/Notes";
+import PromiseToPay from "./PromiseToPay/PromiseToPay";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -77,7 +78,7 @@ const AccountsTabs = () => {
           <Box p={2}>Documents</Box>
         </TabPanel>
         <TabPanel value={tabvalue} index={7}>
-          <Box p={2}>Promise to Pay</Box>
+          <PromiseToPay />
         </TabPanel>
         <TabPanel value={tabvalue} index={8}>
           <Box p={2}>Sales Order</Box>

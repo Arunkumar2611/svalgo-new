@@ -3,7 +3,7 @@ import { ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
-  borderRadius: "12px",
+  borderRadius: "8px",
   overflow: "hidden",
   gap: "2px",
   border: "1px solid #E0E0E0",
@@ -21,17 +21,17 @@ const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
   "&.Mui-selected": {
     backgroundColor: "#F4EBFF",
     color: "#7F56D9",
-    borderRadius: "12px",
+    borderRadius: "8px",
     border: "1px solid #E0E0E0",
   },
   "&:not(:last-of-type)": {
     // borderRight: '1px solid #E0E0E0',
-    borderRadius: "12px",
+    borderRadius: "8px",
   },
   "&:hover": {
     // backgroundColor: '#F4EBFF',
     // color: '#7F56D9',
-    // borderRadius: '12px',
+    // borderRadius: '8px',
     backgroundColor: "transparent", // No hover background
     // color: '#6B7280',
   },

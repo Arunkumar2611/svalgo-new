@@ -11,8 +11,8 @@ import { CustomGridPagination } from './CustomGridPagination';
 interface CustomDataGridProps {
     columns: GridColDef[]; // Use the specific type from @mui/x-data-grid
     rows: Array<{ id: number; [key: string]: string | number | boolean | null }>; // Replace with the specific row type
-    loading: boolean;
-    handleExport: (type: string) => void;
+    loading?: boolean;
+    handleExport?: (type: string) => void;
     [key: string]: unknown; // For additional props
 }
 
