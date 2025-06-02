@@ -8,6 +8,7 @@ import ContactsTabs from "./Contacts/ContactsTabs";
 import Activites from "./Activites/Activites";
 import Notes from "./Notes/Notes";
 import PromiseToPay from "./PromiseToPay/PromiseToPay";
+import SalesOrder from "./SalesOrder/SalesOrder";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -81,7 +82,7 @@ const AccountsTabs = () => {
           <PromiseToPay />
         </TabPanel>
         <TabPanel value={tabvalue} index={8}>
-          <Box p={2}>Sales Order</Box>
+          <SalesOrder />
         </TabPanel>
       </Box>
     </Box>

@@ -37,7 +37,7 @@ export default function CustomDrawer({
         marginTop: `${theme.mixins.toolbar.minHeight}px`,
       }}
     >
-      <Box sx={{ width: 400, display: "flex", flexDirection: "column", height: "100%" }}>
+      <Box sx={{ width: 600, display: "flex", flexDirection: "column", height: "100%" }}>
         {/* Header */}
         <Box
           sx={{

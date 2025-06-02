@@ -1,7 +1,10 @@
-import { Box, Chip } from '@mui/material'
+import { Box, Button, Chip } from '@mui/material'
 import CustomDataGrid from '../../../components/DataGrid2/CustomDataGrid'
 import { useState } from 'react';
 import CustomToggle from '../../../components/CustomToggle/CustomToggle';
+import { Add } from '@mui/icons-material';
+import CustomDrawer from '../../../components/CustomDrawer/CustomDrawer';
+import AddPromiseToPayForm from './AddPromiseToPayForm';
 
 const columnsFirst = [
     { field: 'ptpId', headerName: 'PTP ID', flex: 1 },
@@ -140,6 +143,8 @@ const rowsSecond = [
 
 const PromiseToPay = () => {
     const [selectedTab, setSelectedTab] = useState('openPtp');
+    const [addDrawerOpen, setAddDrawerOpen] = useState(false);
+    const [newPtp, setPtp] = useState({});
 
     const toggleOptions = [
         { value: 'openPtp', label: 'Open Ptp' },
@@ -159,6 +164,15 @@ const PromiseToPay = () => {
     const columns = selectedTab === 'openPtp' ? columnsFirst : columnsSecond;
     const rows = selectedTab === 'openPtp' ? rowsFirst : rowsSecond;
 
+    const onAddClick = () => {
+        setPtp({});
+        setAddDrawerOpen(true);
+    }
+
+    const handleAddSubmit = () => {
+
+    }
+
     return (
         <Box
             sx={{
@@ -176,13 +190,37 @@ const PromiseToPay = () => {
 
                 handleExport={handleExport}
                 headerChildren={
-                    <CustomToggle
-                        options={toggleOptions}
-                        selected={selectedTab}
-                        setSelected={setSelectedTab}
-                    />
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+
+                        <CustomToggle
+                            options={toggleOptions}
+                            selected={selectedTab}
+                            setSelected={setSelectedTab}
+                        />
+                        <Button
+                            startIcon={<Add />}
+                            variant="contained"
+                            onClick={onAddClick}
+                            sx={{
+                                background: '#7F56D9',
+                                color: '#fff',
+                                borderRadius: 1.5,
+                                textTransform: 'none',
+                            }}
+                        >
+                            Add Ptp
+                        </Button>
+                    </Box>
                 }
             />
+            <CustomDrawer
+                    open={addDrawerOpen}
+                    onClose={() => setAddDrawerOpen(false)}
+                    title="Add New Contact"
+                    onSubmit={handleAddSubmit}
+                  >
+                    <AddPromiseToPayForm />
+                  </CustomDrawer>
         </Box>
     )
 }
