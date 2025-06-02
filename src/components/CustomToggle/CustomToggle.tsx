@@ -2,14 +2,14 @@ import React from 'react';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
-    borderRadius: '12px',
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)(() => ({
+    borderRadius: '8px',
     overflow: 'hidden',
     gap: '2px',
     border: '1px solid #E0E0E0',
 }));
 
-const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
+const StyledToggleButton = styled(ToggleButton)(() => ({
     textTransform: 'none',
     fontWeight: 600,
     fontSize: '14px',
@@ -21,13 +21,13 @@ const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
     '&.Mui-selected': {
         backgroundColor: '#F4EBFF',
         color: '#7F56D9',
-        borderRadius: '12px',
+        borderRadius: '8px',
         border: '1px solid #E0E0E0',
 
     },
     '&:not(:last-of-type)': {
         // borderRight: '1px solid #E0E0E0',
-        borderRadius: '12px',
+        borderRadius: '8px',
     },
     '&:hover': {
         // backgroundColor: '#F4EBFF',
@@ -38,28 +38,34 @@ const StyledToggleButton = styled(ToggleButton)(({ theme }) => ({
     },
 }));
 
-export default function CustomToggle() {
-    const [selected, setSelected] = React.useState('top5');
+interface CustomToggleProps {
+  options: { value: string; label: string }[];
+  selected: string;
+  setSelected: (value: string) => void;
+}
 
-    const handleChange = (
-        event: React.MouseEvent<HTMLElement>,
-        newSelection: string
-    ) => {
-        if (newSelection !== null) {
-            setSelected(newSelection);
+export default function CustomToggle({ options, selected, setSelected }: CustomToggleProps) {
+    const handleChange = (_event: React.MouseEvent<HTMLElement>, value: string | null) => {
+        if (value !== null) {
+          setSelected(value);
         }
-    };
-
-    return (
+      };
+    
+      return (
         <StyledToggleButtonGroup
-            value={selected}
-            exclusive
-            onChange={handleChange}
+          value={selected}
+          exclusive
+          onChange={handleChange}
         >
-            <StyledToggleButton disableFocusRipple={true} value="favourites">Favourites</StyledToggleButton>
-            <StyledToggleButton value="top5">
-                Top 5 customer by overdue amount
+          {options.map((option) => (
+            <StyledToggleButton
+              key={option.value}
+              value={option.value}
+              disableFocusRipple
+            >
+              {option.label}
             </StyledToggleButton>
+          ))}
         </StyledToggleButtonGroup>
-    );
+      );
 }
